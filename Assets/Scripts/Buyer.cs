@@ -7,7 +7,6 @@ public class Buyer : MonoBehaviour
 {
     [SerializeField] private GameObject _union;
 
-    public static Buyer buyer;
 
     public float speed = 1f;
 
@@ -19,7 +18,6 @@ public class Buyer : MonoBehaviour
 
     private void Awake()
     {
-        buyer = this;
         _animator = GetComponent<Animator>();
     }
 
@@ -48,6 +46,7 @@ public class Buyer : MonoBehaviour
 
     public void ActivateQuest()
     {
+        GameController.instance.CreateQuest();
         StartCoroutine(ShowQuest());
     }
 

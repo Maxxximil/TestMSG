@@ -40,6 +40,11 @@ public class BuyerController : MonoBehaviour
        buyer.Move(_position);
     }
 
+    public void Reaction()
+    {
+
+    }
+
     public void SetQuest(SimpleProduct[] products)
     {
         switch (products.Length)

@@ -48,12 +48,14 @@ public class Buyer : MonoBehaviour
     {
         GameController.instance.CreateQuest();
         StartCoroutine(ShowQuest());
+        
     }
 
     IEnumerator ShowQuest()
     {
         _union.SetActive(true);
         yield return new WaitForSeconds(5f);
+        GameController.instance.ShowShopScreen();
         _union.SetActive(false);
     }
 }

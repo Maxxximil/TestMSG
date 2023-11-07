@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: 5
   m_EditorClassIdentifier: 
   productId: 5
+  isRight: 0

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class GameController : MonoBehaviour
 {
@@ -33,7 +32,7 @@ public class GameController : MonoBehaviour
 
     public void CreateQuest()
     {
-        int productCount = Random.Range(1, 4);
+        int productCount = Random.Range(3, 4);
         PlayerControl.Instance.questCount = productCount;
         PlayerControl.Instance.CreateChoosenProducts();
         _questProducts = new SimpleProduct[productCount];

@@ -6,6 +6,7 @@ public class SimpleProduct : MonoBehaviour
 {
     public Product product;
     public GameObject _checkMark;
+    public GameObject _missMark;
 
 
     private bool _isClicked = false;
@@ -15,6 +16,7 @@ public class SimpleProduct : MonoBehaviour
     private void Start()
     {
         _renderer = GetComponent<SpriteRenderer>();
+        product.isRight = false;
     }
 
     private void OnMouseDown()
@@ -23,19 +25,32 @@ public class SimpleProduct : MonoBehaviour
         {
             PlayerControl.Instance.AddChoosenProduct(this);
             _isClicked = true;
-            Color color = _renderer.color;
-            color.a = 0.3f;
-            _renderer.color = color;
+            ChangeAlpha(0.3f);
             _checkMark.SetActive(true);
         }
         else if(_isClicked)
         {
             PlayerControl.Instance.RemoveChoosenProduct(this);
             _isClicked = false;
-            Color color = _renderer.color;
-            color.a = 1f;
-            _renderer.color = color;
+            ChangeAlpha(1f);
             _checkMark.SetActive(false);
         }
+    }
+
+    public void ShowCheckMark(bool f)
+    {
+        _checkMark.SetActive(f);
+    }
+
+    public void ShowMissMark(bool f)
+    {
+        _missMark.SetActive(f);
+    }
+
+    public void ChangeAlpha(float a)
+    {
+        Color color = _renderer.color;
+        color.a = a;
+        _renderer.color = color;
     }
 }

@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour
     public bool canClick = true;
     public int questCount = 0;
     public Transform trans;
+    public int costProducts = 10;
 
     private List<SimpleProduct> _choosenProducts;
     private List<SimpleProduct> _products;
@@ -31,7 +32,7 @@ public class PlayerControl : MonoBehaviour
         Instance = this;
     }
 
-    public void CreateChoosenProducts()
+    private void Start()
     {
         _choosenProducts = new List<SimpleProduct>();
         _products = new List<SimpleProduct>();
@@ -96,15 +97,36 @@ public class PlayerControl : MonoBehaviour
             }
             j += 0.5f;
         }
+        StartCoroutine(HideUnion(j));
     }
 
-    
+    public void ChooseEmodji()
+    {
+        int sumSell = _correctProductsCount * 10;
+        if(_correctProductsCount == _choosenProducts.Count)
+        {
+            UIController.Instance.AddMoney(sumSell * 2);
+            BuyerController.instance.Reaction(true);
+        }
+        else
+        {
+            UIController.Instance.AddMoney(sumSell);
+            BuyerController.instance.Reaction(false);
+        }
+        BuyerController.instance.Exit();
+    }
 
+    private IEnumerator HideUnion(float i)
+    {
+        yield return new WaitForSeconds(i + 1f);
+        player.ShowUnion(false);
+        ChooseEmodji();
+    }
     
     private IEnumerator FirstCheck()
     {
         yield return new WaitForSeconds(1);
-        player.ShowUnion();
+        player.ShowUnion(true);
     }
 
     
@@ -120,7 +142,32 @@ public class PlayerControl : MonoBehaviour
         product.ShowMissMark(true);
     }
 
-   
+   public void ResetPlayer()
+    {
+        _correctProductsCount = 0;
+        count = 0;
+        foreach (var p in _choosenProducts)
+        {
+            p.ShowCheckMark(false);
+            p.ChangeAlpha(1f);
+            p.product.isRight = false;
+            p.isClicked = false;
+        }
+        while(_products.Count > 0)
+        {
+            Destroy(_products[0].gameObject);
+            _products.RemoveAt(0);
+        }
+        while(_choosenProducts.Count > 0)
+        {
+            _choosenProducts.RemoveAt(0);
+            
+        }
+        canClick = true;
+        sellButton.SetActive(false);
+        _choosenProducts = new List<SimpleProduct>();
+        _products = new List<SimpleProduct>();
+    }
 
 
     private void ChoosenProducts(SimpleProduct[] products)
@@ -159,7 +206,11 @@ public class PlayerControl : MonoBehaviour
             _products.Add(secondSimpleProduct);
             _products.Add(thirdSimpleProduct);
         }
-        
+        foreach(var product in _products)
+        {
+            var col = product.GetComponent<BoxCollider2D>();
+            col.enabled = false;
+        }
     }
 
     private void ResetSimpleProduct(SimpleProduct simpleProduct, Transform transform)

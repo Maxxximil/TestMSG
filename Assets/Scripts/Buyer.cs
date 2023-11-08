@@ -6,7 +6,8 @@ using UnityEngine;
 public class Buyer : MonoBehaviour
 {
     [SerializeField] private GameObject _union;
-
+    [SerializeField] private GameObject _nice;
+    [SerializeField] private GameObject _angry;
 
     public float speed = 1f;
 
@@ -28,7 +29,8 @@ public class Buyer : MonoBehaviour
         _animator.SetBool("IsMove", _startMove);
     }
 
-    public void Update()
+
+    private void Update()
     {
         if (_startMove)
         {
@@ -39,7 +41,8 @@ public class Buyer : MonoBehaviour
             {
                 _startMove = false;
                 _animator.SetBool("IsMove", _startMove);
-                ActivateQuest();
+                BuyerController.instance.FinishTarget(this.gameObject.transform);
+                //ActivateQuest();
             }
         }
     }
@@ -57,5 +60,24 @@ public class Buyer : MonoBehaviour
         yield return new WaitForSeconds(5f);
         GameController.instance.ShowShopScreen();
         _union.SetActive(false);
+    }
+
+    public void ShowNiceEmodji()
+    {
+        _union.SetActive(true);
+        _nice.SetActive(true);
+    }
+
+    public void ShowAngryEmodji()
+    {
+        _union.SetActive(true);
+        _angry.SetActive(true);
+    }
+
+    public void HideAll()
+    {
+        _union.SetActive(false);
+        _angry.SetActive(false);
+        _nice.SetActive(false);
     }
 }

@@ -6,8 +6,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject _union;
 
-   public void ShowUnion()
+   public void ShowUnion(bool t)
     {
-        _union.SetActive(true);
+        _union.SetActive(t);
     }
 }

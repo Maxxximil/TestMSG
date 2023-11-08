@@ -9,7 +9,7 @@ public class SimpleProduct : MonoBehaviour
     public GameObject _missMark;
 
 
-    private bool _isClicked = false;
+    public bool isClicked = false;
     private SpriteRenderer _renderer;
     
 
@@ -21,17 +21,17 @@ public class SimpleProduct : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!_isClicked && PlayerControl.Instance.canClick)
+        if (!isClicked && PlayerControl.Instance.canClick)
         {
             PlayerControl.Instance.AddChoosenProduct(this);
-            _isClicked = true;
+            isClicked = true;
             ChangeAlpha(0.3f);
             _checkMark.SetActive(true);
         }
-        else if(_isClicked)
+        else if(isClicked)
         {
             PlayerControl.Instance.RemoveChoosenProduct(this);
-            _isClicked = false;
+            isClicked = false;
             ChangeAlpha(1f);
             _checkMark.SetActive(false);
         }

@@ -6,6 +6,7 @@ public class MusicController : MonoBehaviour
 {
     public static MusicController instance;
     
+    [SerializeField] private AudioSource _music;
     [SerializeField] private AudioSource _bubbleSound_appeared;
     [SerializeField] private AudioSource _bubbleSound_disappeared;
     [SerializeField] private AudioSource _click;
@@ -19,27 +20,38 @@ public class MusicController : MonoBehaviour
 
     public void PlayBubbleAppeared()
     {
-        _bubbleSound_appeared.Play();
+        if(PlayerPrefs.GetInt("Sound") == 1)
+        {
+            _bubbleSound_appeared.Play();
+        }
+        
     }
 
     public void PlayBubbleDisappeared()
     {
-        _bubbleSound_disappeared.Play();
+        if (PlayerPrefs.GetInt("Sound") == 1) _bubbleSound_disappeared.Play();
     }
 
     public void PlayClick()
     {
-        _click.Play();
+        if (PlayerPrefs.GetInt("Sound") == 1)  _click.Play();
     }
 
     public void PlayCash()
     {
-        _cash.Play();
+        if (PlayerPrefs.GetInt("Sound") == 1)  _cash.Play();
     }
 
     public void PlayProductSelect()
     {
-        _productSelect.Play();
+        if (PlayerPrefs.GetInt("Sound") == 1) _productSelect.Play();
     }
+
+    public void StopMusic()
+    {
+        if (PlayerPrefs.GetInt("Music") == 1) _music.Play();
+        else _music.Stop();
+    }
+
 
 }

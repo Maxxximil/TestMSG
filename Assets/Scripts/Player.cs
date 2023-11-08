@@ -9,5 +9,13 @@ public class Player : MonoBehaviour
    public void ShowUnion(bool t)
     {
         _union.SetActive(t);
+        if (t)
+        {
+            MusicController.instance.PlayBubbleAppeared();
+        }
+        else
+        {
+            MusicController.instance.PlayBubbleDisappeared();
+        }
     }
 }

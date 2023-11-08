@@ -40,6 +40,7 @@ public class PlayerControl : MonoBehaviour
 
     public void AddChoosenProduct(SimpleProduct simpleProduct)
     {
+        MusicController.instance.PlayProductSelect();
         _choosenProducts.Add(simpleProduct);   
         count++;
         Check();
@@ -48,6 +49,7 @@ public class PlayerControl : MonoBehaviour
     public void RemoveChoosenProduct(SimpleProduct simpleProduct)
     {
         _choosenProducts.Remove(simpleProduct);
+        MusicController.instance.PlayProductSelect();
         count--;
         Check();
     }
@@ -113,6 +115,7 @@ public class PlayerControl : MonoBehaviour
             UIController.Instance.AddMoney(sumSell);
             BuyerController.instance.Reaction(false);
         }
+        MusicController.instance.PlayCash();
         BuyerController.instance.Exit();
     }
 

@@ -35,6 +35,7 @@ public class SellButton : MonoBehaviour
     {
         if (_canSell)
         {
+            MusicController.instance.PlayClick();
             PlayerControl.Instance.SellProducts();
         }
     }

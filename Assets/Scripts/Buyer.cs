@@ -57,26 +57,31 @@ public class Buyer : MonoBehaviour
     IEnumerator ShowQuest()
     {
         _union.SetActive(true);
+        MusicController.instance.PlayBubbleAppeared();
         yield return new WaitForSeconds(5f);
         GameController.instance.ShowShopScreen();
         _union.SetActive(false);
+        MusicController.instance.PlayBubbleDisappeared();
     }
 
     public void ShowNiceEmodji()
     {
         _union.SetActive(true);
+        MusicController.instance.PlayBubbleAppeared();
         _nice.SetActive(true);
     }
 
     public void ShowAngryEmodji()
     {
         _union.SetActive(true);
+        MusicController.instance.PlayBubbleAppeared();
         _angry.SetActive(true);
     }
 
     public void HideAll()
     {
         _union.SetActive(false);
+        MusicController.instance.PlayBubbleDisappeared();
         _angry.SetActive(false);
         _nice.SetActive(false);
     }

@@ -4,6 +4,8 @@ using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+//Скрипт для управления покупателем
 public class BuyerController : MonoBehaviour
 {
     public static BuyerController instance;
@@ -29,12 +31,14 @@ public class BuyerController : MonoBehaviour
         Enter();
     }
 
+    //Активируем покупателя
     private void Enter()
     {
         _buyerObject.SetActive(true);
-        Move(_buyPosition);
+        Move(_buyPosition);//передаем место куда надо передвигаться
     }
 
+    //Разворачиваем покупателя и передаем координаты к выходу
     public void Exit()
     {
         Vector2 vec = new Vector2(-buyer.gameObject.transform.localScale.x, buyer.gameObject.transform.localScale.y);
@@ -42,33 +46,35 @@ public class BuyerController : MonoBehaviour
         Move(_exitPosition);
     }
 
+    //Вызываем у покупателя передвижение в переданные координаты
     private void Move(Transform m)
     {
        buyer.Move(m);
     }
 
+    //Проверяем в какую именно точку мы дошли
     public void FinishTarget(Transform p)
     {
         if(Vector2.Distance(p.position, _buyPosition.position) < 0.1f)
         {
-            buyer.ActivateQuest();
+            buyer.ActivateQuest();//Если в точку покупки то активируем квест
         }
-        if(Vector2.Distance(p.position, _exitPosition.position) < 0.1f)
+        if(Vector2.Distance(p.position, _exitPosition.position) < 0.1f)//Если в точку выхода, то деактивируем покупателя и разворачиваем его
         {
             _buyerObject.SetActive(false);
             Vector2 vec = new Vector2(-buyer.gameObject.transform.localScale.x, buyer.gameObject.transform.localScale.y);
             buyer.gameObject.transform.localScale = vec;
-            GameController.instance.ResetGame();
+            GameController.instance.ResetGame();//Отчищаем и перезапускаем игру
         }
     }
-
+    //Реакция на покупку
     public void Reaction(bool t)
     {
         foreach(var qp in _questProducts)
         {
-            qp.gameObject.SetActive(false);
+            qp.gameObject.SetActive(false);//Деактивируем продукты в облачке
         }
-        if (t)
+        if (t)//показываем эмоцию в зависимости от кол-ва продуктов
         {
             buyer.ShowNiceEmodji();
         }
@@ -78,7 +84,7 @@ public class BuyerController : MonoBehaviour
         }
     }
 
-    public void SetQuest(SimpleProduct[] products)
+    public void SetQuest(SimpleProduct[] products)//Получаем список продуктов и создаем их в облачке
     {
         _questProducts = new List<SimpleProduct>();
         switch (products.Length)
@@ -110,16 +116,16 @@ public class BuyerController : MonoBehaviour
         }
     }
 
-    public void ResetBuyer()
+    public void ResetBuyer()//Сбрасываем покупателся
     {
         buyer.HideAll();
-        for (int i = _questProducts.Count - 1; i >= 0; i--)
+        for (int i = _questProducts.Count - 1; i >= 0; i--)//Удаляем продукты из облачка
         {
             Destroy(_questProducts[i].gameObject);
             _questProducts.RemoveAt(i);
 
         }
-        StartCoroutine(Pause());
+        StartCoroutine(Pause());//Запускаем паузу в секунду и заново активируем покупателя
        
         
     }
@@ -127,6 +133,6 @@ public class BuyerController : MonoBehaviour
     private IEnumerator Pause()
     {
         yield return new WaitForSeconds(1f);
-        Enter();
+        Enter();//Новый круг покупки
     }
 }

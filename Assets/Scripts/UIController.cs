@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+//Скрипт отвечает за интерфейс
 public class UIController : MonoBehaviour
 {
     public static UIController Instance;
@@ -24,6 +25,7 @@ public class UIController : MonoBehaviour
         Instance = this;
     }
 
+    //На старте создаем/проверяем префы для музыки, звуков и денег игрока
     private void Start()
     {
         if (!PlayerPrefs.HasKey("Money"))
@@ -45,7 +47,7 @@ public class UIController : MonoBehaviour
         CheckSettings();
     }
 
-    private void CheckSettings()
+    private void CheckSettings()//Проверяем настройки при запуске
     {
         if (PlayerPrefs.GetInt("Music") == 1)
         {
@@ -70,19 +72,20 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void AddMoney(int money)
+    public void AddMoney(int money)//Добавляем деньги в преф и в интерфейс
     {
         money += PlayerPrefs.GetInt("Money");
         PlayerPrefs.SetInt("Money", money);
         _money.text= "$ " + money.ToString();
     }
 
-    public void SaveSettings()
+    public void SaveSettings()//Сохраняем настройки
     {
         PlayerPrefs.SetInt("Music", music);
         PlayerPrefs.SetInt("Sound", sound);
         MusicController.instance.StopMusic();
     }
+
 
     public void EnableMusic()
     {

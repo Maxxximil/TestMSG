@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Скрипт отвечает за музыку
 public class MusicController : MonoBehaviour
 {
     public static MusicController instance;
@@ -20,9 +21,9 @@ public class MusicController : MonoBehaviour
 
     public void PlayBubbleAppeared()
     {
-        if(PlayerPrefs.GetInt("Sound") == 1)
+        if(PlayerPrefs.GetInt("Sound") == 1)//Проверяем включены ли звуки в настройках
         {
-            _bubbleSound_appeared.Play();
+            _bubbleSound_appeared.Play();//Воспроизводим звук
         }
         
     }
@@ -49,8 +50,8 @@ public class MusicController : MonoBehaviour
 
     public void StopMusic()
     {
-        if (PlayerPrefs.GetInt("Music") == 1) _music.Play();
-        else _music.Stop();
+        if (PlayerPrefs.GetInt("Music") == 1) _music.Play();//Проверяем включеа ли музыка в настройках, если да то включаем музыку
+        else _music.Stop();//Если нет то останавливаем
     }
 
 

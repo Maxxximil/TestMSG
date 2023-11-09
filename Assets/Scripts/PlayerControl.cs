@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//Скрипт отвечает за управление игрока
 public class PlayerControl : MonoBehaviour
 { 
     public static PlayerControl Instance;
@@ -38,15 +39,15 @@ public class PlayerControl : MonoBehaviour
         _products = new List<SimpleProduct>();
     }
 
-    public void AddChoosenProduct(SimpleProduct simpleProduct)
+    public void AddChoosenProduct(SimpleProduct simpleProduct)//Вызывается когда мы кликаем на продукт
     {
         MusicController.instance.PlayProductSelect();
-        _choosenProducts.Add(simpleProduct);   
-        count++;
-        Check();
+        _choosenProducts.Add(simpleProduct);  //Добавляем выбранный продукт в список продуктов 
+        count++;//Увеличиваем количество выбранных продуктов
+        Check();//Вызываем проверку
     }
 
-    public void RemoveChoosenProduct(SimpleProduct simpleProduct)
+    public void RemoveChoosenProduct(SimpleProduct simpleProduct)//Удаляем продукт из списка выбранных продуктов 
     {
         _choosenProducts.Remove(simpleProduct);
         MusicController.instance.PlayProductSelect();
@@ -54,9 +55,9 @@ public class PlayerControl : MonoBehaviour
         Check();
     }
 
-    public void Check()
+    public void Check()//Проверяем количество выбранных товаров 
     {
-        if(count >= questCount)
+        if(count >= questCount)//Активириуем или деактивируем кнопку продажи и возможность выбирать новые продукты
         {
             canClick = false;
             sellButton.SetActive(true);
@@ -68,10 +69,10 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void SellProducts()
+    public void SellProducts()//Продаем продукты
     {
-        SimpleProduct[] prod = GameController.instance.GetQuestProducts();
-        for (int i = 0; i < _choosenProducts.Count; i++)
+        SimpleProduct[] prod = GameController.instance.GetQuestProducts();//Получаем список продуктов по заданию
+        for (int i = 0; i < _choosenProducts.Count; i++)//Сравниваем и меняем счетчик
         {
             foreach (SimpleProduct product in prod)
             {
@@ -82,13 +83,13 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-        GameController.instance.ShowShopScreen();
-        ChoosenProducts(_choosenProducts.ToArray());
-        StartCoroutine(FirstCheck());
-        float j = 1.5f;
+        GameController.instance.ShowShopScreen();//Скрываем экран магазина
+        ChoosenProducts(_choosenProducts.ToArray());//Создаем продукы в облачке игрока
+        StartCoroutine(FirstCheck());//Показываем облачко
+        float j = 1.5f;//Переменная для работы со временем коротин
         foreach (SimpleProduct product in _products)
         {
-            if (product.product.isRight)
+            if (product.product.isRight)//Проверяем продукты
             {
 
                 StartCoroutine(ShowCheckMark(product, j));
@@ -97,17 +98,17 @@ public class PlayerControl : MonoBehaviour
             {
                 StartCoroutine(ShowMissMark(product, j));
             }
-            j += 0.5f;
+            j += 0.5f;//Добавляем к каждой следуйщей коротины 0,5 секунды
         }
-        StartCoroutine(HideUnion(j));
+        StartCoroutine(HideUnion(j));//Скрываем облачко
     }
 
-    public void ChooseEmodji()
+    public void ChooseEmodji()//Проверяем правильность продуктов и вызываем нужную эмоцию 
     {
         int sumSell = _correctProductsCount * 10;
         if(_correctProductsCount == _choosenProducts.Count)
         {
-            UIController.Instance.AddMoney(sumSell * 2);
+            UIController.Instance.AddMoney(sumSell * 2);//Отправляем в ui количество заработтаных денег
             BuyerController.instance.Reaction(true);
         }
         else
@@ -116,17 +117,17 @@ public class PlayerControl : MonoBehaviour
             BuyerController.instance.Reaction(false);
         }
         MusicController.instance.PlayCash();
-        BuyerController.instance.Exit();
+        BuyerController.instance.Exit();//Передаем контроллеру команду на выход
     }
 
-    private IEnumerator HideUnion(float i)
+    private IEnumerator HideUnion(float i)//Скрываем облачко игрока
     {
         yield return new WaitForSeconds(i + 1f);
         player.ShowUnion(false);
         ChooseEmodji();
     }
     
-    private IEnumerator FirstCheck()
+    private IEnumerator FirstCheck()//Активируем облачко игрока
     {
         yield return new WaitForSeconds(1);
         player.ShowUnion(true);
@@ -134,18 +135,18 @@ public class PlayerControl : MonoBehaviour
 
     
 
-    private IEnumerator ShowCheckMark(SimpleProduct product, float i)
+    private IEnumerator ShowCheckMark(SimpleProduct product, float i)//Ставим галочку над правильными продуктами
     {
         yield return new WaitForSeconds(i);
         product.ShowCheckMark(true);
     }
-    private IEnumerator ShowMissMark(SimpleProduct product, float i)
+    private IEnumerator ShowMissMark(SimpleProduct product, float i)//Ставим крестик над неправильными продуктами
     {
         yield return new WaitForSeconds(i);
         product.ShowMissMark(true);
     }
 
-   public void ResetPlayer()
+   public void ResetPlayer()//Обнуляем игрока
     {
         _correctProductsCount = 0;
         count = 0;
@@ -173,7 +174,7 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    private void ChoosenProducts(SimpleProduct[] products)
+    private void ChoosenProducts(SimpleProduct[] products)//Создаем продукты в облачке
     {
         foreach(SimpleProduct product in products)
         {
@@ -216,7 +217,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void ResetSimpleProduct(SimpleProduct simpleProduct, Transform transform)
+    private void ResetSimpleProduct(SimpleProduct simpleProduct, Transform transform)//Обнуляем все трансформы у созданных продуктов в облачке
     {
         simpleProduct.transform.parent = transform.transform;
         simpleProduct.transform.position = transform.transform.position;

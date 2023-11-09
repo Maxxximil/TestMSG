@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Скрипт отвечает за кнопку продажи
 public class SellButton : MonoBehaviour
 {
     private SpriteRenderer _renderer;
@@ -13,7 +15,7 @@ public class SellButton : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetActive(bool isActive)
+    public void SetActive(bool isActive)//Активация кнопки продажи
     {
         if (isActive)
         {
@@ -31,7 +33,7 @@ public class SellButton : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    private void OnMouseDown()//При нажатии передаем в playercontroller чтобы запустить продажу
     {
         if (_canSell)
         {

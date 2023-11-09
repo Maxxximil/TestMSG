@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Скрипт управления игрой
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
@@ -31,11 +32,10 @@ public class GameController : MonoBehaviour
         _questProducts = new SimpleProduct[1];
     }
 
-    public void CreateQuest()
+    public void CreateQuest()//Создаем квест на покупку
     {
         int productCount = Random.Range(1, 4);
-        PlayerControl.Instance.questCount = productCount;
-        //PlayerControl.Instance.CreateChoosenProducts();
+        PlayerControl.Instance.questCount = productCount;//Передаем игроку сколько должно быть продуктов
         _questProducts = new SimpleProduct[productCount];
         for(int i =  0; i < productCount; i++)
         {
@@ -44,15 +44,15 @@ public class GameController : MonoBehaviour
                 _questProducts[i] = SetQuestProduct();
             } while (Check(_questProducts[i]));
         }
-        BuyerController.instance.SetQuest(_questProducts);
+        BuyerController.instance.SetQuest(_questProducts);//Передаем покупателю список продуктов
     }
 
-    public SimpleProduct[] GetQuestProducts()
+    public SimpleProduct[] GetQuestProducts()//Получаем список продуктов
     {
         return _questProducts;
     }
 
-    private bool Check(SimpleProduct product)
+    private bool Check(SimpleProduct product)//Проверяем чтобы продукты не повторялись
     {
         int count = 0;
         foreach(var i in _questProducts)
@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
         else return false;
     }
 
-    private SimpleProduct SetQuestProduct()
+    private SimpleProduct SetQuestProduct()//Выбираем рандомный продукт со всего списка
     {
         int randomProduct = Random.Range(1, allProducts.Count);
         return allProducts[randomProduct];
@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour
 
     
 
-    public void ShowShopScreen()
+    public void ShowShopScreen()//Выводим/скрываем экран магазина
     {
         if (_target == endPositionShopScreen)
         {
@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour
         _showShopScreen = true;
     }
 
-    private void Update()
+    private void Update()//Движение магазина
     {
         if (_showShopScreen)
         {
@@ -98,10 +98,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ResetGame()
+    public void ResetGame()//Сброс игры
     {
-        PlayerControl.Instance.ResetPlayer();
-        BuyerController.instance.ResetBuyer();
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        PlayerControl.Instance.ResetPlayer();//Сброс игрока
+        BuyerController.instance.ResetBuyer();//Сброс покупателя
     }
 }

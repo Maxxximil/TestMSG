@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//—крипт отвечает за логику одного продукта
 public class SimpleProduct : MonoBehaviour
 {
     public Product product;
@@ -19,6 +20,7 @@ public class SimpleProduct : MonoBehaviour
         product.isRight = false;
     }
 
+    //ѕри нажатии на продукт добавл€ем или удал€ем его из списка игрока и измен€ем внешний вид продукта
     private void OnMouseDown()
     {
         if (!isClicked && PlayerControl.Instance.canClick)
@@ -37,17 +39,17 @@ public class SimpleProduct : MonoBehaviour
         }
     }
 
-    public void ShowCheckMark(bool f)
+    public void ShowCheckMark(bool f)//ѕоказываем/скрываем галочку
     {
         _checkMark.SetActive(f);
     }
 
-    public void ShowMissMark(bool f)
+    public void ShowMissMark(bool f)//ѕоказываем/скрываем крестик
     {
         _missMark.SetActive(f);
     }
 
-    public void ChangeAlpha(float a)
+    public void ChangeAlpha(float a)//ћен€ем прозрачность
     {
         Color color = _renderer.color;
         color.a = a;
